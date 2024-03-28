@@ -1,9 +1,5 @@
 """
-TODOs
- - 2200: 150 * (boolq rte)
- - 0200: 150 * (boolq mrpc rte cb)
- - 0700: (150 42) * (boolq rte)
- - 1100: (150 42) * (boolq mrpc rte cb)
+Generate transfer ranking
 """
 
 import os

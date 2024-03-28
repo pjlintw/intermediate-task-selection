@@ -1,36 +1,6 @@
 #!/usr/bin/env bash
 
-# This scripts trains prompt tuning with initialization from language model's vocabulary method.
-# For smaller datasets of GLUE (mrpc, cola, and stsb), we set the `num_train_epochs` to 20,
-# for other larger datasets in GLUE we used `num_train_epochs` of 3.
-# python run_seq2seq.py  configs/prompt_tuning_tokens_init.json
-
-# ###### Job setup stuff ######
-# # run setup
-# source /nethome/pjlin/pythonProjects/htcondor_test_master/scripts/setup.sh
-
-# # run misc. stuff
-# nvidia-smi
-# echo $CUDA_VISIBLE_DEVICES
-# echo $HOSTNAME
-# which python
-# python -m pip list
-# ###### Job setup stuff ######
-
-
-# ##### Project setup stuff #####
-# # variable `SOURCE_TASK` has to assign to `--src_task_name`
-# #   total experiements is (src_t * ckpt_step * seeds * tgt_t)
-# export HOME=/nethome/pjlin
-# cd $HOME
-# source ~/.bashrc
-# conda activate compacter
-# cd /nethome/pjlin/pythonProjects/compacter/seq2seq/
-# ##### Project setup stuff #####
-
-
-##### data & training setup stuff #####
-##### data & training setup stuff #####
+# This scripts calcualte the prompt similarity (task embeddings).
 
 GLUE_TASKS=(boolq cola stsb superglue-wic cr mrpc rte superglue-wsc superglue-copa cb) 
 

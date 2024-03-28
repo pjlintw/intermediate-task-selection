@@ -96,7 +96,6 @@ do
 		    for TASK_NAME in ${GLUE_TASKS[*]}
 		    do
 		        # organized as follow: OUTPUT_DIR_PREFIX/TUNING/MODEL/TASK/SEED
-		        # output_dir="/data/users/pjlin/compacter/transfer_outputs/prompt_transfer_test"
 		        # output_dir="/data/users/pjlin/compacter/spot_outputs/prompt_transfer_tokens_init_best_adafactor_lr-${LR}/${MODEL}/${SOURCE_TASK}_${TASK_NAME}/${SEED}"
 		        output_dir="/data/users/pjlin/compacter/spot_test_outputs/prompt_transfer_tokens_init_best_adafactor_lr-${LR}/${MODEL}/${SOURCE_TASK}_${TASK_NAME}/${SEED}"
 		        rm -r $output_dir

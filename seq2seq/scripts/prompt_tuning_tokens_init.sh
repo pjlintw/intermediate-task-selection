@@ -8,7 +8,7 @@
 ###### Job setup stuff ######
 # run setup
 source /nethome/pjlin/pythonProjects/htcondor_test_master/scripts/setup.sh
-12
+
 # run misc. stuff
 nvidia-smi
 echo $CUDA_VISIBLE_DEVICES

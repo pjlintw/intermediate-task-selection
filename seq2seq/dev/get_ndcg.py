@@ -156,8 +156,6 @@ def main():
     parser.add_argument('--output_dir', default="/data/users/pjlin/compacter/spot_eval/ndcg_results")
     args = parser.parse_args()
     
-    # args.method = "regret_at_k"
-
     ### modify here accordingly ###
     lr = "2"
     model = "t5-base"

@@ -779,7 +779,7 @@ def main():
     print("# of train sets", train_datasets)
     print("# of valid sets", eval_datasets)
     print("# of test sets", test_datasets)
-    assert 3==2
+    
 
     # Data collator
     label_pad_token_id = (
