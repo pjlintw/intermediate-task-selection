@@ -1,6 +1,6 @@
 # Exploring Task Selection for Intermediate-Task Transfer Learning
 
-| [Installation](#installation) | [Prompt Transfer](#prompttransfer) | [Task Selection](#taskselection) | [Datasets](#datasets) |
+| [Installation](#installation) | [Datasets](#datasets) | [Prompt Transfer](#prompt-transfer) | [Task Selection](#task-selection) |
 
 This repository contains the implementation of [Exploring Task Selection for Intermediate-Task Transfer Learning](https://drive.google.com/file/d/1xzOWiR1Psu62UOTaPGpvB6r7S9eiaP3k/view?usp=sharing) with prompt tuning and prompt transfer.
 
