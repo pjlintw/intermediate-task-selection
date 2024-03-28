@@ -10,10 +10,10 @@ def setup_package():
   setuptools.setup(
       name='seq2seq',
       version='0.0.1',
-      description='Compacter',
+      description='Intermediate Task Selection',
       long_description=long_description,
       long_description_content_type='text/markdown',
-      author='Rabeeh Karimi Mahabadi',
+      author='Pin-Jie Lin',
       license='MIT License',
       packages=setuptools.find_packages(
           exclude=['docs', 'tests', 'scripts', 'examples']),
@@ -44,7 +44,7 @@ def setup_package():
         'tensorboard==2.5.0',
         'matplotlib==3.4.2',
         'torch==1.8.0+cu111',
-        'transformers==4.7.0'
+        'transformers==4.6.0'
       ],
   )
 

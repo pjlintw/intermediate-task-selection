@@ -4,7 +4,7 @@
 
 This repository contains the implementation of [Exploring Task Selection for Intermediate-Task Transfer Learning](https://drive.google.com/file/d/1xzOWiR1Psu62UOTaPGpvB6r7S9eiaP3k/view?usp=sharing) with prompt tuning and prompt transfer.
 
-In this repository, we explore the effectiveness of task selection approaches based on prompt transfer. We first train soft prompts with a frozen T5 model, then continually train the prompt weight on resource-constrained tasks. We investiage task selection methods including data size, text embedding, prompt-based task embedding, and further extend task embedding on prompt weight  to max-pairwise similarity (MAX). We construct all tasks into text-to-text prediction.
+In this repository, we explore the effectiveness of task selection approaches based on prompt transfer. We first train soft prompts with a frozen T5 model, then continually train the prompt weight on resource-constrained tasks. We investiage task selection methods including data size, text embedding, prompt-based task embedding, and further extend task embedding on prompt weight  to max-pairwise similarity (MAX).
 
 Our code is run by submitting job via HTCondor. 
 Please specify the following scrips in your submit file. Otherwise, you can comment out the lines for job submission setup in those bash script. 
@@ -154,8 +154,9 @@ After training a set of models on a target tasks, one can create a ranking of em
 For evalauting all 13 source tasks transfering to RTE, please do:
 
 ```bash
-python dev/get_transfer_ranking.py --tgt_task=rte --output_dir=PATH_TO_YOUR_DIR/spot_eval/transfer_ranking
-
+python dev/get_transfer_ranking.py \
+	--tgt_task=rte \
+	--output_dir=PATH_TO_YOUR_DIR/spot_eval/transfer_ranking
 ```
 
 We save the result file in the `--output_dir` and require it for evalaution ranking.
@@ -207,7 +208,7 @@ python dev/get_ndcg.py \
 	--pred_dir=PATH_TO_YOUR_DIR \
 	--pred_dir=PATH_TO_YOUR_DIR \
 	--output_dir=PATH_TO_YOUR_DIR \
-	method=ndcg
+	--method=ndcg
 ```
 
 You can replace the ndcg with  `regret_at_k` and `top_k_performance`. 
