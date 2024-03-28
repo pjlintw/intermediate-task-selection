@@ -2,7 +2,7 @@
 
 | [Installation](#installation) | [Datasets](#datasets) | [Prompt Transfer](#prompt-transfer) | [Task Selection](#task-selection) |
 
-This repository contains the implementation of [Exploring Task Selection for Intermediate-Task Transfer Learning](https://drive.google.com/file/d/1xzOWiR1Psu62UOTaPGpvB6r7S9eiaP3k/view?usp=sharing) with prompt tunin, prompt transfer.
+This repository contains the implementation of [Exploring Task Selection for Intermediate-Task Transfer Learning](https://drive.google.com/file/d/1xzOWiR1Psu62UOTaPGpvB6r7S9eiaP3k/view?usp=sharing) with prompt tuning, prompt transfer.
 
 In this repository, we explore the effectiveness of task selection approaches based on prompt transfer. We first train soft prompts with a frozen T5 model, then continually train the prompt weight on resource-constrained tasks. 
 We investigate task selection methods including data size, text embedding, prompt-based task embedding, and further extend other direction to contruct the task embedding, such as max-pairwise similarity (MAX), flatten, unigram task embedding.
