@@ -151,7 +151,7 @@ The commands train prompt tuning with initialization from pretrained prompt weig
 To get the relative performance, please run:
 
 ```bash
-python dev/get_prompt_transfer.py
+python dev/get_transfer_scores.py
 ```
 
 
