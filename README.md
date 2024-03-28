@@ -108,7 +108,7 @@ These scripts demonstrate prompt tuning, prompt transfer, and task selection usi
 To execute the models, please first do:
 
 ```bash
-cd compacter/seq2seq
+cd intermediate-task-selection/seq2seq
 ```
 
 
