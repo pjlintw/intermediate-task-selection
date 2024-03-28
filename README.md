@@ -4,11 +4,10 @@
 
 This repository contains the implementation of [Exploring Task Selection for Intermediate-Task Transfer Learning](https://drive.google.com/file/d/1xzOWiR1Psu62UOTaPGpvB6r7S9eiaP3k/view?usp=sharing) with prompt tuning and prompt transfer.
 
-In this repository, we explore the effectiveness of task selection approaches based on prompt transfer. We first train soft prompts with a frozen T5 model, then continually train the prompt weight on resource-constrained tasks. We investiage task selection methods including data size, text embedding, prompt-based task embedding, and further extend task embedding on prompt weight  to max-pairwise similarity (MAX).
+In this repository, we explore the effectiveness of task selection approaches based on prompt transfer. We first train soft prompts with a frozen T5 model, then continually train the prompt weight on resource-constrained tasks. We investigate task selection methods including data size, text embedding, prompt-based task embedding, and further extend task embedding on prompt weight to max-pairwise similarity (MAX).
 
-Our code is run by submitting job via HTCondor. 
-Please specify the following scrips in your submit file. Otherwise, you can comment out the lines for job submission setup in those bash script. 
-For instruction of HTConder, please read the [documents](https://repos.lsv.uni-saarland.de/mmosbach/htcondor-test/-/tree/master). 
+Our code is run by submitting a job via HTCondor. Please specify the following scripts in your submit file. Otherwise, you can comment out the lines for job submission setup in those bash scripts. For instructions on HTCondor, please read the [documents](https://repos.lsv.uni-saarland.de/mmosbach/htcondor-test/-/tree/master).
+
 
 
 ## Installation
@@ -26,7 +25,7 @@ conda create -n intermediate-task-selection
 conda activate intermediate-task-selection
 ```
 
-Install denpendencies
+Install denpendencies first.
 
 ```bash
 . install_dependencies.sh
@@ -38,17 +37,14 @@ We suggest to install editable mode. This works for most of case.
 pip install -e .
 ```
 
+
 ## Datasets
 
-We following 23 tasks, paired with their respective evaluation metrics across NLI, 
-paraphrase detection, semantic similarity, question answering, reading comprehension, Grammatical acceptability, Word sense disambiguation, Sentiment analysis, coreference resolution.
-We split as the datasets with less than 1K training samples as target task and 10 datasets as target tasks.
-To run the following task, please use the provided names below:
+We follow 23 tasks, paired with their respective evaluation metrics across NLI, paraphrase detection, semantic similarity, question answering, reading comprehension, grammatical acceptability, word sense disambiguation, sentiment analysis, and coreference resolution. We split the datasets into those with less than 1K training samples as target tasks and 10 datasets as target tasks. To run the following tasks, please use the provided names below:
 
 ### Source Tasks
 
-We consider the dataset with richer annotation number as source tasks.
-We train 13 source task, then initalized these pre-trained prompt weight for contually training on target tasks. We apply learning rate of 5e-1 for all source task.
+We consider the dataset with richer annotation numbers as source tasks. We train 13 source tasks, then initialize these pre-trained prompt weights for continual training on target tasks. We apply a learning rate of 5e-1 for all source tasks.
 
 
 | Dataset            | Metrics                        |
@@ -72,7 +68,7 @@ We train 13 source task, then initalized these pre-trained prompt weight for con
 
 ### Target Tasks
 
-We prompt tune 10 target task as baseline and transfer 13 source prompt to each target task. We apply learning rate of 2.
+We train on 10 target task as baseline and transfer 13 source prompt to each target task. We apply learning rate of 2.
 
 
 | Dataset            | Metrics                        |
@@ -90,43 +86,45 @@ We prompt tune 10 target task as baseline and transfer 13 source prompt to each 
 
 
 
-
 ## Prompt Transfer
 
-This section performs intermediate task transfer with prompt tuning. 
-This involes (1) prompt tuning initialized from the sampled embedding's token and prompt transfer initialzied from pretrained prompt on source task.
+This section performs intermediate task transfer with prompt tuning. This involves:
+
+1. Prompt tuning initialized from the sampled embedding's token.
+2. Prompt transfer initialized from pretrained prompt on the source task.
 
 To reproduce the results of Table 5.2 (Effect of prompt transfer), you need to execute both scripts for prompt tuning and the prompt transfer one.
 
-We applied same configuration either for prompt tuning or for prompt transfer.
-Example scripts for running prompt tuning, prompt transfer, and task selection are provided in ``seq2seq/scripts`. 
+We applied the same configuration for both prompt tuning and prompt transfer.
 
-We provide the example scripts to run prompt tuning, prompt transfer and task selection using thee config files in `seq2seq/configs`. To run the models, please first do
+Example scripts for running prompt tuning, prompt transfer, and task selection are provided in `seq2seq/scripts`.
+
+We provide example scripts to run prompt tuning, prompt transfer, and task selection using the config files in `seq2seq/configs`. To run the models, please first do:
 
 ```bash
 cd compacter/seq2seq
 ```
 
+
 ### Configuration File and Arguments
 
-When training model with prompt tuning, all code for training requires a configration file defined in `configs/prompt_tuning_tokens_config/t5-base` folder.
-Our implemetation manages files according the fine-tuning methods and model type.
-Feel free to create your own directory.
+When training the model with prompt tuning, all code for training requires a configuration file defined in configs/prompt_tuning_tokens_config/t5-base folder. Our implementation manages files according to the fine-tuning methods and model type. Feel free to create your own directory.
 
-Note that to enable flexible confugrate the hyperparameters, we provide partial arguments in the main python script (`run_seq2seq.py`) for allowing sweep over the testing values. 
-These arguments will overwrite the arguments in config files.
+Note that to enable flexible configuration of the hyperparameters, we provide partial arguments in the main python script (run_seq2seq.py) to allow sweeping over the testing values. These arguments will overwrite the arguments in config files.
 
 
-### Run Prompt Tuning
+
+### ### Run Prompt Tuning
 
 To perform prompt tuning on a single task, execute the following command. This script trains prompt tuning with initialization from the language model's vocabulary method. For 10 tasks, we use a learning rate of 2, and for the source tasks, a learning rate of 5e-1.
+
 
 ```bash
 . script/prompt_tuning_tokens_init.sh
 ```
 
-
 To get the average performance, please run:
+
 
 ```bash
 python dev/get_prompt_scores.py
@@ -134,7 +132,6 @@ python dev/get_prompt_scores.py
 
 
 ### Run Prompt Transfer
-
 The commands train prompt tuning with initialization from pretrained prompt weights. Please specify the checkpoints to CKPTS.
 
 ```bash
@@ -150,8 +147,8 @@ python dev/get_prompt_transfer.py
 
 ### Creating Ranking Files
 
-After training a set of models on a target tasks, one can create a ranking of emprical prompt transfer as ground-truth reference for evaluting the predction of task embedding.
-For evalauting all 13 source tasks transfering to RTE, please do:
+
+After training a set of models on target tasks, one can create a ranking of empirical prompt transfer as ground-truth reference for evaluating the prediction of task embedding. For evaluating all 13 source tasks transferring to RTE, please do:
 
 ```bash
 python dev/get_transfer_ranking.py \
@@ -159,11 +156,10 @@ python dev/get_transfer_ranking.py \
 	--output_dir=PATH_TO_YOUR_DIR/spot_eval/transfer_ranking
 ```
 
-We save the result file in the `--output_dir` and require it for evalaution ranking.
-Each file is named as `eval_tgt-TASKNAME_seed-VALUE` which contains prompt tuning's and prompt transfer's performances and ranking of intermediate tasks sorted by prompt transfer. 
+We save the result file in the --output_dir and require it for evaluation ranking. Each file is named as eval_tgt-TASKNAME_seed-VALUE, which contains prompt tuning's and prompt transfer's performances and ranking of intermediate tasks sorted by prompt transfer.
 
+As in the previous part, you can specify all the tasks once you have done all the training jobs.
 
-As previsous part, you can specify all the tasks once you done all the training jobs. 
 
 ```bash
 . scripts/run_transfer_ranking.sh
@@ -173,7 +169,7 @@ As previsous part, you can specify all the tasks once you done all the training 
 
 ## Task Selection
 
-In order to evalaute the transferability of an sorce task to given target task, one would need run prompt tuning on all tasks.
+In order to evaluate the transferability of a source task to a given target task, one would need to run prompt tuning on all tasks.
 
 
 - vocab similarity
@@ -184,11 +180,12 @@ In order to evalaute the transferability of an sorce task to given target task, 
 
 - task embeddings
 
-With our training scripts, we save the prompt weight along in the file `prefix_shared.bin`.
-Through all task embedding expereiemnts, the weights are calculated for the task embeddigns.
+With our training scripts, we save the prompt weight along in the file prefix_shared.bin.
+Through all task embedding experiments, the weights are calculated for the task embeddings.
 
-Except for prompt similarity (`feature_mean`), we provdes additional constructions for task embeddings.
-The following values are supports for `--task_embedding_type ` arugments : `feature_mean`, `flatten`, `unigram`, `bigram`,`max_pairwise`.
+Except for prompt similarity (feature_mean), we provide additional constructions for task embeddings.
+The following values are supported for --task_embedding_type argument: feature_mean, flatten, unigram, bigram, max_pairwise.
+
 
 ```bash
 . scripts/get_prompt_similarity.sh
@@ -197,11 +194,11 @@ The following values are supports for `--task_embedding_type ` arugments : `feat
 We save the predicted ranking file `eval_tgt-TASKNAME_seed-VALUE.json` in the `--output_dir`.
 
 
-### Evalaution on Task Selection
+### Evaluation on Task Selection
 
-To evalaute the task selection methods (random, size, text embedding or task embeddings), one reuqires both prediction file and reference file.
+To evaluate the task selection methods (random, size, text embedding, or task embeddings), one requires both a prediction file and a reference file.
 
-In our work, we evalaute with `ndcg`, `regret_at_k `. This is support to `--method`.
+In our work, we evaluate with `ndcg`, `regret_at_k`. This is supported by `--method`.
 
 ```bash
 python dev/get_ndcg.py \
@@ -211,10 +208,9 @@ python dev/get_ndcg.py \
 	--method=ndcg
 ```
 
-You can replace the ndcg with  `regret_at_k` and `top_k_performance`. 
+You can replace ndcg with regret_at_k and top_k_performance.
 
-
-For evalauton prediction of *data size* and *random* methods. you can directly pass boolean argument as follow:
+For evaluation prediction of data size and random methods, you can directly pass boolean arguments as follows:
 
 ```bash
 python dev/get_ndcg.py 	--ranking_by_random
@@ -228,16 +224,17 @@ python dev/get_ndcg.py 	--ranking_by_size
 
 ## Fine-tuning methods and adding tasks
 
-This repo is developed based on [COMPACTER](https://github.com/rabeehk/compacter) and contains the implementation of recent parameter-efficient finetuning methods. Thus, the repo also provides the example scripts to run T5 model with full model tuning and others parameter efficeint fine-tuning. For full fine-tuning please run:
+This repo is developed based on [COMPACTER](https://github.com/rabeehk/compacter) and contains the implementation of recent parameter-efficient fine-tuning methods. Thus, the repo also provides example scripts to run T5 model with full model tuning and other parameter efficient fine-tuning methods. For full fine-tuning, please run:
+
 
 ```bash
 . scripts/baseline.sh
 ```  
 
-Other parameter fine-tuning methods, please check the scripts in `scripts` folds.
+Other parameter fine-tuning methods can be found in the scripts folder.
 (Adapter, AdapterDrop, Low-Rank, BitFit, Compacter, Compacter++, PHM-Adapters, Intrinsic-SAID)
 
-If you wish to add a new task, you will need to create a new dataset class in `/data/{tasks,postprocessors}.py` and its corresponding configuration file. For example, when running a task, a configuration file is required, such as prompt_tuning_tokens_config/t5-baseprompt_tuning_tokens_init_boolq.json.
+If you wish to add a new task, you will need to create a new dataset class in /data/{tasks,postprocessors}.py and its corresponding configuration file. For example, when running a task, a configuration file such as prompt_tuning_tokens_config/t5-baseprompt_tuning_tokens_init_boolq.json is required.
 
 
 ## Bibliography
