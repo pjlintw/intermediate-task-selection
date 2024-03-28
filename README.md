@@ -261,4 +261,4 @@ If you find this repo useful, please cite our work:
 
 ## Contact Information
 
-For help or issues using our code, please submit a issue or contact to pjlin@lsv.uni-saarland.de
+For help or issues using our code, please submit a issue or contact to pjlin@lsv.uni-saarland.de.
